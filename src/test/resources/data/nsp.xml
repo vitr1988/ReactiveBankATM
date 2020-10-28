@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<companies xmlns:xi="http://www.w3.org/2001/XInclude" version="2.1">
+  <company>
+    <company-id>5196</company-id>
+    <name>ВТБ, банкомат</name>
+    <country>Россия</country>
+    <address>Москва, </address>
+    <address-add>ст. м. Бульвар Дмитрия Донского</address-add>
+    <working-time>пн.-вс.: 05.30-00.30</working-time>
+    <coordinates>
+      <lat>55.568440</lat>
+      <lon>37.575863</lon>
+    </coordinates>
+    <url>https://www.vtb.ru</url>
+    <rubric-id>184105402</rubric-id>
+    <actualization-date>1602020400</actualization-date>
+    <feature-boolean name="limited_access" value="1" />
+    <feature-enum-multiple name="currency_atm" value="atm_rur" />
+  </company>
+  <company>
+    <company-id>6354</company-id>
+    <name>ВТБ, банкомат</name>
+    <country>Россия</country>
+    <address>Москва, Донской 5-й, д.15 стр.8</address>
+    <address-add>МФЦ р-на Донской</address-add>
+    <working-time>пн.-вс.: 08.00-20.00</working-time>
+    <coordinates>
+      <lat>55.707395</lat>
+      <lon>37.600486</lon>
+    </coordinates>
+    <url>https://www.vtb.ru</url>
+    <rubric-id>184105402</rubric-id>
+    <actualization-date>1602020400</actualization-date>
+    <feature-boolean name="limited_access" value="1" />
+    <feature-enum-multiple name="currency_atm" value="atm_rur" />
+  </company>
+</companies>

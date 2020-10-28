@@ -1,0 +1,10 @@
+spring:
+  main:
+    banner-mode: 'off'
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/atm-test
+
+application:
+  atm-info-url: classpath:data/nsp.xml
+  chunk-size: 2
