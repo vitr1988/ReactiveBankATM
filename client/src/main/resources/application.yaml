@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: 'off'
+  application:
+    name: telegram-atm
+
+bot:
+  name: ReactiveAtmBot
+  token: 1411789946:AAHSD6yRO3bRh72NiXjLhOpUQCJiE2PSYMI
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
