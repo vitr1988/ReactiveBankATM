@@ -8,58 +8,58 @@ import ru.vtb.model.Company;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-11-03T09:18:07+0400",
+    date = "2020-11-03T13:26:33+0400",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 14.0.1 (Oracle Corporation)"
 )
 @Component
 public class CompanyMapperImpl implements CompanyMapper {
 
     @Override
-    public CompanyDto toDto(Company entity) {
-        if ( entity == null ) {
+    public CompanyDto toDto(Company document) {
+        if ( document == null ) {
             return null;
         }
 
         CompanyDto companyDto = new CompanyDto();
 
-        companyDto.setCompanyId( entity.getCompanyId() );
-        companyDto.setName( entity.getName() );
-        companyDto.setCountry( entity.getCountry() );
-        companyDto.setAddress( entity.getAddress() );
-        companyDto.setAddressAdd( entity.getAddressAdd() );
-        companyDto.setWorkingTime( entity.getWorkingTime() );
-        double[] location = entity.getLocation();
+        companyDto.setCompanyId( document.getCompanyId() );
+        companyDto.setName( document.getName() );
+        companyDto.setCountry( document.getCountry() );
+        companyDto.setAddress( document.getAddress() );
+        companyDto.setAddressAdd( document.getAddressAdd() );
+        companyDto.setWorkingTime( document.getWorkingTime() );
+        double[] location = document.getLocation();
         if ( location != null ) {
             companyDto.setLocation( Arrays.copyOf( location, location.length ) );
         }
-        companyDto.setUrl( entity.getUrl() );
-        companyDto.setRubricId( entity.getRubricId() );
-        companyDto.setActualizationDate( entity.getActualizationDate() );
+        companyDto.setUrl( document.getUrl() );
+        companyDto.setRubricId( document.getRubricId() );
+        companyDto.setActualizationDate( document.getActualizationDate() );
 
         return companyDto;
     }
 
     @Override
-    public Company toEntity(CompanyDto entity) {
-        if ( entity == null ) {
+    public Company toDocument(CompanyDto dto) {
+        if ( dto == null ) {
             return null;
         }
 
         Company company = new Company();
 
-        company.setCompanyId( entity.getCompanyId() );
-        company.setName( entity.getName() );
-        company.setCountry( entity.getCountry() );
-        company.setAddress( entity.getAddress() );
-        company.setAddressAdd( entity.getAddressAdd() );
-        company.setWorkingTime( entity.getWorkingTime() );
-        double[] location = entity.getLocation();
+        company.setCompanyId( dto.getCompanyId() );
+        company.setName( dto.getName() );
+        company.setCountry( dto.getCountry() );
+        company.setAddress( dto.getAddress() );
+        company.setAddressAdd( dto.getAddressAdd() );
+        company.setWorkingTime( dto.getWorkingTime() );
+        double[] location = dto.getLocation();
         if ( location != null ) {
             company.setLocation( Arrays.copyOf( location, location.length ) );
         }
-        company.setUrl( entity.getUrl() );
-        company.setRubricId( entity.getRubricId() );
-        company.setActualizationDate( entity.getActualizationDate() );
+        company.setUrl( dto.getUrl() );
+        company.setRubricId( dto.getRubricId() );
+        company.setActualizationDate( dto.getActualizationDate() );
 
         return company;
     }

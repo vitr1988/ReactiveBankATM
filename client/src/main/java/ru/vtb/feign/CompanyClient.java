@@ -10,6 +10,8 @@ import ru.vtb.dto.CompanyDto;
 
 import java.util.List;
 
+import static ru.vtb.rest.ApiConstant.*;
+
 @FeignClient(name = CompanyClient.CLIENT_NAME, path = CompanyClient.CONTEXT_PATH, fallback = CompanyFallback.class)
 @RibbonClient(name = CompanyClient.CLIENT_NAME, configuration = LoadBalancerConfiguration.class)
 public interface CompanyClient {
@@ -17,8 +19,10 @@ public interface CompanyClient {
     String CLIENT_NAME = "bank-atm";
     String CONTEXT_PATH = "${bank-atm.api.context-path:/}";
 
-    @GetMapping("/api/atms")
-    List<CompanyDto> getAtms(@RequestParam Float longitude, @RequestParam Float latitude, @RequestParam Float distance);
+    @GetMapping(ATM_SEARCH_URL)
+    List<CompanyDto> getAtms(@RequestParam(LONGITUDE_REQUEST_PARAM) Float longitude,
+                             @RequestParam(LATITUDE_REQUEST_PARAM) Float latitude,
+                             @RequestParam(DISTANCE_REQUEST_PARAM) Float distance);
 
     default List<CompanyDto> getAtms(Location location, Float distance) {
         return getAtms(location.getLongitude(), location.getLatitude(), distance);

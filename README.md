@@ -1,19 +1,21 @@
 # ReactiveBankATM
+Данный репозиторий содержит результаты практической составляющей проектной работы по курсу "Разработчик Spring".
 
+По архитектурному стилю проект принадлежит к числу 3хзвенных приложений, базирующийся на современном подходе реактивной разработки. 
+Дополнительно в проекте разработан модуль подключения к Telegram боту.
+
+С точки зрения хранения информация используется NoSQL-решение Mongo, которое доступно в облаке.
+Одним из ключевых возможностей данного хранилища является использование запросов с поиском данных на базе геолокации,
+используя GeoSpatial индекс: 
 db.company.createIndex( { location : "2dsphere" } )
 
+Для документации используется Swagger (http://localhost:8080/swagger-ui.html)
+
+В качестве точки для внешней интеграции используется REST-эндопойнт:
 http://localhost:8080/api/atms?longitude=37&latitude=55&distance=20
 
-http://localhost:8080/swagger-ui.html
+Дополнительно проект развернут в рамках Jelastic и доступен по ссылке:
+http://env-4382930.mircloud.host/
 
-
-http://env-4382930.mircloud.host/actuator
-
-http://env-4382930.mircloud.host/swagger-ui.html
-
-http://env-4382930.mircloud.host/api/atms?longitude=37&latitude=55&distance=20
-
-http://u-karty.ru/opredelenie-koordinat-na-karte-google
-
+Пример запроса поиска данных:
 http://env-4382930.mircloud.host/api/atms?longitude=50.222899&latitude=53.201268&distance=2
-

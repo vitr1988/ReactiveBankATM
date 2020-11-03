@@ -15,8 +15,7 @@ import ru.vtb.config.ApplicationProperties;
 import ru.vtb.dto.CompanyDto;
 import ru.vtb.feign.CompanyClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,8 @@ import java.util.stream.Collectors;
 public class AtmBot extends TelegramLongPollingBot {
 
     private static final String BANK_INFO_OUTPUT_FORMAT = "%d. %s";
-
     private static final float MAX_DISTANCE = 1;
+    private static final String NEW_LINE = "\n";
 
     private final CompanyClient companyClient;
     private final ApplicationProperties applicationProperties;
@@ -35,7 +34,7 @@ public class AtmBot extends TelegramLongPollingBot {
     @SneakyThrows
     public void onUpdateReceived(Update update) {
         Location location;
-        SendMessage message = new SendMessage().setChatId(update.getMessage().getChatId());
+        val message = new SendMessage().setChatId(update.getMessage().getChatId());
         // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
             switch (update.getMessage().getText()) {
@@ -57,34 +56,31 @@ public class AtmBot extends TelegramLongPollingBot {
             val index = new AtomicInteger(0);
             val atms = companyClient.getAtms(location, MAX_DISTANCE);
             message.setText(
-                    "Your current location is [long: " + location.getLongitude() + ", lat: " + location.getLatitude() + "].\n\n" +
-                    String.format("Atms %s located near %.2f km from current position:\n", atms.size() == 1 ? "is" : "are", MAX_DISTANCE) +
+                    String.format("Your current location is https://yandex.ru/maps?text=%.6f,%.6f", location.getLatitude(), location.getLongitude()) + NEW_LINE + NEW_LINE +
+                    String.format("Atms %s located near %.2f km from current position:", atms.size() == 1 ? "is" : "are", MAX_DISTANCE) + NEW_LINE +
                     atms.stream()
-                        .map(company -> {
-                            final int currentIndex = index.incrementAndGet();
-                            return String.format(BANK_INFO_OUTPUT_FORMAT, currentIndex, atms.get(currentIndex - 1).getAddress());
-                        })
-                        .collect(Collectors.joining("\n")));
+                        .map(CompanyDto::getAddress)
+                        .distinct() // по 1 адресу может находиться несколько банкоматов
+                        .map(company -> String.format(BANK_INFO_OUTPUT_FORMAT, index.incrementAndGet(), company))
+                        .collect(Collectors.joining(NEW_LINE)));
         }
-
+        // send answer to telegram
         execute(message);
     }
 
     public void attachLocationButton(SendMessage sendMessage) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        val replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        KeyboardButton shareNumBtn = new KeyboardButton("Send current location");
-        shareNumBtn.setRequestContact(false);
-        shareNumBtn.setRequestLocation(true);
-        keyboardSecondRow.add(shareNumBtn);
-        keyboard.add(keyboardSecondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
+        val keyboardRow = new KeyboardRow();
+        val shareLocationButton = new KeyboardButton("Send current location");
+        shareLocationButton.setRequestContact(false);
+        shareLocationButton.setRequestLocation(true);
+        keyboardRow.add(shareLocationButton);
+        replyKeyboardMarkup.setKeyboard(Arrays.asList(keyboardRow));
     }
 
     @Override

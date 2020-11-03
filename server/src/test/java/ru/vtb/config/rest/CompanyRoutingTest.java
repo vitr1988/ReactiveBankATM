@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static ru.vtb.config.rest.ApiConstant.*;
+import static ru.vtb.rest.ApiConstant.*;
 
 @SpringBootTest
 @DisplayName("Контроллер банкоматов в реактивном стиле должен ")

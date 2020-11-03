@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-import static ru.vtb.config.rest.ApiConstant.REFRESH_URL;
-import static ru.vtb.config.rest.ApiConstant.STATUS_URL;
+import static ru.vtb.rest.ApiConstant.REFRESH_URL;
+import static ru.vtb.rest.ApiConstant.STATUS_URL;
 
 @Configuration
 @EnableWebFluxSecurity

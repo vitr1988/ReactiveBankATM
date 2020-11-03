@@ -70,7 +70,7 @@ public class JobConfiguration {
 
     @Bean
     public ItemProcessor<CompanyDto, Company> companyProcessor() {
-        return companyMapper::toEntity;
+        return companyMapper::toDocument;
     }
 
     @Bean

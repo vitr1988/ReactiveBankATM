@@ -1,7 +1,5 @@
 package ru.vtb.config.rest;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springdoc.core.annotations.RouterOperation;
@@ -29,7 +27,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 import static org.springframework.web.reactive.function.server.ServerResponse.badRequest;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 import static ru.vtb.config.JobConfiguration.DB_INITIALIZATION_JOB;
-import static ru.vtb.config.rest.ApiConstant.*;
+import static ru.vtb.rest.ApiConstant.*;
 
 @Configuration
 @RequiredArgsConstructor

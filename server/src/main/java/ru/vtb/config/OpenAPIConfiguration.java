@@ -7,7 +7,7 @@ import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static ru.vtb.config.rest.ApiConstant.ATM_SEARCH_URL;
+import static ru.vtb.rest.ApiConstant.ATM_SEARCH_URL;
 
 @Configuration
 public class OpenAPIConfiguration {

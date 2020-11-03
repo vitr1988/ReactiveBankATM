@@ -22,8 +22,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Flux<CompanyDto> getCompaniesByCoordinatesAndDistance(double longitude, double latitude, double distance) {
         return companyRepository.findByLocationNear(
-                new Point(longitude, latitude),
-                new Distance(distance, Metrics.KILOMETERS))
+                    new Point(longitude, latitude),
+                    new Distance(distance, Metrics.KILOMETERS))
                 .map(GeoResult::getContent)
                 .map(companyMapper::toDto);
     }

@@ -3,8 +3,6 @@ spring:
     banner-mode: 'off'
   application:
     name: bank-atm
-  messages:
-    basename: i18n.messages
   data:
     mongodb:
       uri: mongodb+srv://atm:atm@cluster0.ml6pw.mongodb.net/atm?retryWrites=true&w=majority
@@ -46,7 +44,3 @@ springfox:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-
-#logging:
-#  level:
-#    root: ERROR

@@ -1,4 +1,5 @@
-package ru.vtb.config.rest;
+package ru.vtb.rest;
+
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
