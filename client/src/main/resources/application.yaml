@@ -15,3 +15,18 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+  hystrix:
+    enabled: true
+
+ribbon:
+  ServerListRefreshInterval: 10000
+  ReadTimeout: 60000
+  ConnectTimeout: 5000
+  eureka:
+    enabled: false
+
+bank-atm:
+  api:
+    context-path: /
+  ribbon:
+    listOfServers: env-4382930.mircloud.host
