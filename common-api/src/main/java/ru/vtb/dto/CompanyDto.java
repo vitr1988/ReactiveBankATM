@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @JsonPropertyOrder({ "id", "name", "country", "address", "addressDetails", "workingTime", "location", "externalId", "actualizationDate" })
 public class CompanyDto {
 
+    public static final CompanyDto NO_COMPANY = new CompanyDto();
+
     @JsonProperty("id")
     private String companyId;
 

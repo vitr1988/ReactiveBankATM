@@ -11,6 +11,6 @@ public class CompanyFallback implements CompanyClient {
 
     @Override
     public List<CompanyDto> getAtms(Float longitude, Float latitude, Float distance) {
-        return Collections.emptyList();
+        return Collections.singletonList(CompanyDto.NO_COMPANY);
     }
 }

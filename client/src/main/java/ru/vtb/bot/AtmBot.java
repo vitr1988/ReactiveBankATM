@@ -33,11 +33,14 @@ public class AtmBot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
+        if (!update.hasMessage()) return;
+
         Location location;
-        val message = new SendMessage().setChatId(update.getMessage().getChatId());
+        val inputMessage = update.getMessage();
+        val message = new SendMessage().setChatId(inputMessage.getChatId());
         // We check if the update has a message and the message has text
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            switch (update.getMessage().getText()) {
+        if (inputMessage.hasText()) {
+            switch (inputMessage.getText()) {
                 case "/start": {
                     message.setText("Welcome to Reactive ATM bot! Use command /location to send your location");
                     break;
@@ -52,17 +55,22 @@ public class AtmBot extends TelegramLongPollingBot {
                     break;
                 }
             }
-        } else if ((location = update.getMessage().getLocation()) != null) { // location is shared
+        } else if ((location = inputMessage.getLocation()) != null) { // location is shared
             val index = new AtomicInteger(0);
             val atms = companyClient.getAtms(location, MAX_DISTANCE);
             message.setText(
                     String.format("Your current location is https://yandex.ru/maps?text=%.6f,%.6f", location.getLatitude(), location.getLongitude()) + NEW_LINE + NEW_LINE +
-                    String.format("Atms %s located near %.2f km from current position:", atms.size() == 1 ? "is" : "are", MAX_DISTANCE) + NEW_LINE +
-                    atms.stream()
-                        .map(CompanyDto::getAddress)
-                        .distinct() // по 1 адресу может находиться несколько банкоматов
-                        .map(company -> String.format(BANK_INFO_OUTPUT_FORMAT, index.incrementAndGet(), company))
-                        .collect(Collectors.joining(NEW_LINE)));
+                    (atms.isEmpty()
+                            ? String.format("There is no atm in location of %.2f km from current position", MAX_DISTANCE)
+                            : (atms.contains(CompanyDto.NO_COMPANY) ? "Just try again later" :
+                                String.format("Atms %s located near %.2f km from current position:", atms.size() == 1 ? "is" : "are", MAX_DISTANCE) + NEW_LINE +
+                                    atms.stream()
+                                        .map(CompanyDto::getAddress)
+                                        .distinct() // по 1 адресу может находиться несколько банкоматов
+                                        .map(company -> String.format(BANK_INFO_OUTPUT_FORMAT, index.incrementAndGet(), company))
+                                        .collect(Collectors.joining(NEW_LINE)))
+                    )
+            );
         }
         // send answer to telegram
         execute(message);
