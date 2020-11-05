@@ -8,13 +8,6 @@
     <artifactId>common-api</artifactId>
     <version>0.0.1</version>
 
-    <!-- Наследуем зависимости от глобального родителя  -->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.4.RELEASE</version>
-    </parent>
-
     <properties>
         <jackson.version>2.11.3</jackson.version>
         <lombok.version>1.18.16</lombok.version>
@@ -37,7 +30,6 @@
     </dependencies>
 
     <build>
-        <finalName>common-api</finalName>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <pluginManagement>
             <plugins>

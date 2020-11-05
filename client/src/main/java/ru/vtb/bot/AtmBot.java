@@ -16,14 +16,19 @@ import ru.vtb.dto.CompanyDto;
 import ru.vtb.feign.CompanyClient;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class AtmBot extends TelegramLongPollingBot {
 
-    private static final String BANK_INFO_OUTPUT_FORMAT = "%d. %s";
+    private static final String USER_LOCATION_OUTPUT_FORMAT = "Your current location is https://yandex.ru/maps?text=%.6f,%.6f";
+    private static final String BANK_INFO_OUTPUT_FORMAT = "%d. %s - https://yandex.ru/maps?text=%.6f,%.6f";
     private static final float MAX_DISTANCE = 1;
     private static final String NEW_LINE = "\n";
 
@@ -59,15 +64,14 @@ public class AtmBot extends TelegramLongPollingBot {
             val index = new AtomicInteger(0);
             val atms = companyClient.getAtms(location, MAX_DISTANCE);
             message.setText(
-                    String.format("Your current location is https://yandex.ru/maps?text=%.6f,%.6f", location.getLatitude(), location.getLongitude()) + NEW_LINE + NEW_LINE +
+                    String.format(USER_LOCATION_OUTPUT_FORMAT, location.getLatitude(), location.getLongitude()) + NEW_LINE + NEW_LINE +
                     (atms.isEmpty()
                             ? String.format("There is no atm in location of %.2f km from current position", MAX_DISTANCE)
                             : (atms.contains(CompanyDto.NO_COMPANY) ? "Just try again later" :
                                 String.format("Atms %s located near %.2f km from current position:", atms.size() == 1 ? "is" : "are", MAX_DISTANCE) + NEW_LINE +
                                     atms.stream()
-                                        .map(CompanyDto::getAddress)
-                                        .distinct() // по 1 адресу может находиться несколько банкоматов
-                                        .map(company -> String.format(BANK_INFO_OUTPUT_FORMAT, index.incrementAndGet(), company))
+                                        .filter(distinctByKey(CompanyDto::getAddress))  // по 1 адресу может находиться несколько банкоматов
+                                        .map(company -> String.format(BANK_INFO_OUTPUT_FORMAT, index.incrementAndGet(), company.getAddress(), company.getLocation()[1], company.getLocation()[0]))
                                         .collect(Collectors.joining(NEW_LINE)))
                     )
             );
@@ -99,5 +103,12 @@ public class AtmBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return applicationProperties.getName();
+    }
+
+    public static <T> Predicate<T> distinctByKey(
+            Function<? super T, ?> keyExtractor) {
+
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 }
