@@ -1,7 +1,6 @@
 package ru.vtb.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
@@ -11,7 +10,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @Document(collection = "company")
 public class Company {
 
